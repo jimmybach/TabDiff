@@ -1,0 +1,37 @@
+{
+    "name": "house",
+    "task_type": "regression",
+    "header": "infer",
+    "column_names": [
+        "longitude",
+        "latitude",
+        "housing_median_age",
+        "total_rooms",
+        "total_bedrooms",
+        "population",
+        "households",
+        "median_income",
+        "median_house_value",
+        "ocean_proximity"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ],
+    "cat_col_idx": [
+        9
+    ],
+    "target_col_idx": [
+        8
+    ],
+    "file_type": "csv",
+    "data_path": "data/house/train.csv",
+    "val_path": null,
+    "test_path": "data/house/test.csv"
+}

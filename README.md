@@ -40,10 +40,16 @@ The schema of TabDiff is presented in the figure above. For more details, please
 
 ## Environment Setup
 
-Create the main environment with [tabdiff.yaml](tabdiff.yaml). This environment will be used for all tasks except for the evaluation of additional data fidelity metrics (i.e., $\alpha$-precision and $\beta$-recall scores)
+Create the main environment with [tabdiff.yaml](tabdiff.yaml). This default environment is cross-platform and works on macOS, Windows, and Linux CPU setups. It will be used for all tasks except for the evaluation of additional data fidelity metrics (i.e., $\alpha$-precision and $\beta$-recall scores)
 
 ```
 conda env create -f tabdiff.yaml
+```
+
+If you are using Linux with an NVIDIA GPU and want CUDA 11.7 support, use [tabdiff-cu117.yaml](tabdiff-cu117.yaml) instead:
+
+```
+conda env create -f tabdiff-cu117.yaml
 ```
 
 Create another environment with [synthcity.yaml](synthcity.yaml) to evaluate additional data fidelity metrics
@@ -112,7 +118,7 @@ To train an unconditional TabDiff model across the entire table, run
 python main.py --dataname <NAME_OF_DATASET> --mode train
 ```
 
-Current Options of ```<NAME_OF_DATASET>``` are: adult, default, shoppers, magic, beijing, news
+Current Options of ```<NAME_OF_DATASET>``` are: adult, default, shoppers, magic, beijing, news, diabetes, house, income, sick, us_location
 
 Wanb logging is enabled by default. To disable it and log locally, add the ```--no_wandb``` flag.
 

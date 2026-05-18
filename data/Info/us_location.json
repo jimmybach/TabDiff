@@ -1,0 +1,27 @@
+{
+    "name": "us_location",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": [
+        "state_code",
+        "lat",
+        "lon",
+        "bird",
+        "lat_zone"
+    ],
+    "num_col_idx": [
+        1,
+        2
+    ],
+    "cat_col_idx": [
+        0,
+        3
+    ],
+    "target_col_idx": [
+        4
+    ],
+    "file_type": "csv",
+    "data_path": "data/us_location/train.csv",
+    "val_path": null,
+    "test_path": "data/us_location/test.csv"
+}

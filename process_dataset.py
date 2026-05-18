@@ -22,6 +22,44 @@ parser = argparse.ArgumentParser(description='process dataset')
 parser.add_argument('--dataname', type=str, default=None, help='Name of dataset.')
 args = parser.parse_args()
 
+
+def preprocess_presplit_dataset(name, numeric_cols=None, categorical_cols=None, target_col=None):
+    with open(f'{INFO_PATH}/{name}.json', 'r') as f:
+        info = json.load(f)
+
+    train_path = info['data_path']
+    test_path = info['test_path']
+
+    train_df = pd.read_csv(train_path, header=info['header'])
+    test_df = pd.read_csv(test_path, header=info['header'])
+
+    if info['column_names'] is None:
+        info['column_names'] = train_df.columns.tolist()
+
+    if numeric_cols is None:
+        numeric_cols = [info['column_names'][idx] for idx in info['num_col_idx']]
+    if categorical_cols is None:
+        categorical_cols = [info['column_names'][idx] for idx in info['cat_col_idx']]
+    if target_col is None:
+        target_col = info['column_names'][info['target_col_idx'][0]]
+
+    for col in categorical_cols + [target_col]:
+        if col in train_df.columns and train_df[col].dtype == object:
+            train_df[col] = train_df[col].fillna('__missing__')
+            test_df[col] = test_df[col].fillna('__missing__')
+
+    for col in numeric_cols:
+        if col in train_df.columns:
+            median = train_df[col].median()
+            train_df[col] = train_df[col].fillna(median)
+            test_df[col] = test_df[col].fillna(median)
+
+    train_df.to_csv(train_path, index=False)
+    test_df.to_csv(test_path, index=False)
+
+    with open(f'{INFO_PATH}/{name}.json', 'w') as file:
+        json.dump(info, file, indent=4)
+
 def preprocess_beijing():
     with open(f'{INFO_PATH}/beijing.json', 'r') as f:
         info = json.load(f)
@@ -142,6 +180,10 @@ def preprocess_diabetes():
     """
     with open(f'{INFO_PATH}/diabetes.json', 'r') as f:
         info = json.load(f)
+
+    if 'raw_data_path' not in info:
+        preprocess_presplit_dataset('diabetes')
+        return
 
     info['num_col_idx'] = list(range(9))
     info['cat_col_idx'] = list(range(9, 36))
@@ -362,6 +404,8 @@ def process_data(name):
         preprocess_diabetes()
     elif name == 'diabetes_dcr':
         preprocess_diabetes_dcr()
+    elif name in ['house', 'income', 'sick', 'us_location']:
+        preprocess_presplit_dataset(name)
 
     with open(f'{INFO_PATH}/{name}.json', 'r') as f:
         info = json.load(f)
@@ -633,6 +677,7 @@ if __name__ == "__main__":
     else:
         for name in [
                 'adult', 'default', 'shoppers', 'magic', 'beijing', 'news', 'news_nocat', 'diabetes',
+                'house', 'income', 'sick', 'us_location',
                 'adult_dcr',
                 'default_dcr',
                 'shoppers_dcr',
@@ -643,4 +688,3 @@ if __name__ == "__main__":
             process_data(name)
 
         
-
