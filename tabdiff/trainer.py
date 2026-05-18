@@ -1,6 +1,7 @@
 import os
 import glob
 import time
+import inspect
 import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import numpy as np
@@ -58,7 +59,14 @@ class Trainer:
         self.optimizer = torch.optim.AdamW(self.diffusion.parameters(), lr=lr, weight_decay=weight_decay)
         self.ema_decay = ema_decay
         self.lr_scheduler = lr_scheduler
-        self.scheduler = ReduceLROnPlateau(self.optimizer, mode='min', factor=factor, patience=reduce_lr_patience, verbose=True)
+        scheduler_kwargs = {
+            'mode': 'min',
+            'factor': factor,
+            'patience': reduce_lr_patience,
+        }
+        if 'verbose' in inspect.signature(ReduceLROnPlateau).parameters:
+            scheduler_kwargs['verbose'] = True
+        self.scheduler = ReduceLROnPlateau(self.optimizer, **scheduler_kwargs)
         self.closs_weight_schedule = closs_weight_schedule
         self.c_lambda = c_lambda
         self.d_lambda = d_lambda
