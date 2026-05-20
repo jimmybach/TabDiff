@@ -400,11 +400,18 @@ class Trainer:
         
         print_with_bar(f"The AVG over {num_runs} runs are: \n{avg_std}")
         
-    def test(self):    
-        out_metrics, _, _ = self.evaluate_generation(save_metric_details=True, plot_density=True)
-        print_with_bar(f"Results of the test are: \n{out_metrics}")
-        self.logger.log(out_metrics)
-        print(out_metrics)
+    def test(self):
+        self.diffusion.eval()
+        num_samples = self.num_samples_to_generate if self.num_samples_to_generate else self.metrics.real_data_size
+        syn_df = self.sample_synthetic(num_samples)
+
+        save_path = os.path.join(self.result_save_path, str(self.curr_epoch))
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+
+        path = os.path.join(save_path, "samples.csv")
+        syn_df.to_csv(path, index=False)
+        print(f"Samples are saved at {path}")
 
     def evaluate_generation(self, save_metric_details=False, plot_density=False, ema=False):
         self.diffusion.eval()
