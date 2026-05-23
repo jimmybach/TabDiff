@@ -26,7 +26,7 @@ export PIP_CACHE_DIR="$WORKROOT/pip-cache"
 export UV_CACHE_DIR="$WORKROOT/uv-cache"
 mkdir -p "$TMPDIR" "$PIP_CACHE_DIR" "$UV_CACHE_DIR" "$WORKROOT/slurm_logs"
 
-DATASETS="${DATASETS:-diabetes house income sick us_location}"
+DATASETS="${DATASETS:-diabetes house income sick us_location agrawal_covariate_shift gas_sensor_covariate_shift gaussian_mixture_covariate_shift adult_prior_shift agrawal_prior_shift bank_prior_shift creditcard_prior_shift sea_prior_shift covertype_concept_drift electricity_concept_drift hyperplane_concept_drift magic_telescope_concept_drift mixed_concept_drift sine_concept_drift stagger_concept_drift}"
 GPU="${GPU:-0}"
 RUN_PROCESS="${RUN_PROCESS:-1}"
 RUN_TRAIN="${RUN_TRAIN:-1}"
