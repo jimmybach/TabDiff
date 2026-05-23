@@ -23,12 +23,18 @@ parser.add_argument('--dataname', type=str, default=None, help='Name of dataset.
 args = parser.parse_args()
 
 
+def resolve_path(path):
+    if path is None:
+        return None
+    return os.path.expanduser(os.path.expandvars(path))
+
+
 def preprocess_presplit_dataset(name, numeric_cols=None, categorical_cols=None, target_col=None):
     with open(f'{INFO_PATH}/{name}.json', 'r') as f:
         info = json.load(f)
 
-    train_path = info['data_path']
-    test_path = info['test_path']
+    train_path = resolve_path(info['data_path'])
+    test_path = resolve_path(info['test_path'])
 
     train_df = pd.read_csv(train_path, header=info['header'])
     test_df = pd.read_csv(test_path, header=info['header'])
@@ -64,7 +70,7 @@ def preprocess_beijing():
     with open(f'{INFO_PATH}/beijing.json', 'r') as f:
         info = json.load(f)
     
-    data_path = info['raw_data_path']
+    data_path = resolve_path(info['raw_data_path'])
 
     data_df = pd.read_csv(data_path)
     columns = data_df.columns
@@ -79,7 +85,7 @@ def preprocess_beijing_dcr():
     with open(f'{INFO_PATH}/beijing_dcr.json', 'r') as f:
         info = json.load(f)
     
-    data_path = info['raw_data_path']
+    data_path = resolve_path(info['raw_data_path'])
 
     data_df = pd.read_csv(data_path)
     columns = data_df.columns
@@ -95,7 +101,7 @@ def preprocess_news(remove_cat=False):
     with open(f'{INFO_PATH}/{name}.json', 'r') as f:
         info = json.load(f)
 
-    data_path = info['raw_data_path']
+    data_path = resolve_path(info['raw_data_path'])
     data_df = pd.read_csv(data_path)
     data_df = data_df.drop('url', axis=1)
 
@@ -136,7 +142,7 @@ def preprocess_news_dcr(remove_cat=False):
     with open(f'{INFO_PATH}/{name}.json', 'r') as f:
         info = json.load(f)
 
-    data_path = info['raw_data_path']
+    data_path = resolve_path(info['raw_data_path'])
     data_df = pd.read_csv(data_path)
     data_df = data_df.drop('url', axis=1)
 
@@ -189,7 +195,7 @@ def preprocess_diabetes():
     info['cat_col_idx'] = list(range(9, 36))
     info['target_col_idx'] = [36]
     
-    data_path = info['raw_data_path']
+    data_path = resolve_path(info['raw_data_path'])
     df = pd.read_csv(data_path, sep=',')
     df = df[info['column_names']]
     df = df.replace(r' ', np.nan)
@@ -388,6 +394,12 @@ def train_val_test_split(data_df, cat_columns, num_train = 0, num_test = 0):
     return train_df, test_df, seed    
 
 
+def time_order_train_test_split(data_df, num_train=0):
+    train_df = data_df.iloc[:num_train].copy()
+    test_df = data_df.iloc[num_train:].copy()
+    return train_df, test_df
+
+
 def process_data(name):
 
     if name == 'news':
@@ -410,7 +422,7 @@ def process_data(name):
     with open(f'{INFO_PATH}/{name}.json', 'r') as f:
         info = json.load(f)
 
-    data_path = info['data_path']
+    data_path = resolve_path(info['data_path'])
     if info['file_type'] == 'csv':
         data_df = pd.read_csv(data_path, header = info['header'])
 
@@ -421,6 +433,12 @@ def process_data(name):
     num_data = data_df.shape[0]
 
     column_names = info['column_names'] if info['column_names'] else data_df.columns.tolist()
+
+    if info.get('split_by_time'):
+        time_col = info.get('time_col')
+        if time_col is not None:
+            sort_col = time_col if isinstance(time_col, str) else column_names[time_col]
+            data_df = data_df.sort_values(by=sort_col, kind='stable').reset_index(drop=True)
  
     num_col_idx = info['num_col_idx']
     cat_col_idx = info['cat_col_idx']
@@ -451,11 +469,11 @@ def process_data(name):
 
             test_df = pd.read_csv(test_save_path, header = None)
         else:
-            test_df = pd.read_csv(test_path, header = info['header'])
+            test_df = pd.read_csv(resolve_path(test_path), header = info['header'])
             
         if has_val:     # currently you cannot have a val path without a test path
             val_path = info['val_path']
-            val_df = pd.read_csv(val_path, header = info['header'])
+            val_df = pd.read_csv(resolve_path(val_path), header = info['header'])
             
         train_df = data_df
         
@@ -475,7 +493,11 @@ def process_data(name):
             num_train = int(num_data*0.9)
         num_test = num_data - num_train
 
-        train_df, test_df, seed = train_val_test_split(data_df, cat_columns, num_train, num_test)
+        if info.get('split_by_time'):
+            train_df, test_df = time_order_train_test_split(data_df, num_train)
+            seed = None
+        else:
+            train_df, test_df, seed = train_val_test_split(data_df, cat_columns, num_train, num_test)
     
     complete_df = pd.concat([train_df, test_df, val_df], axis = 0)
     name_idx_mapping = {val: key for key, val in idx_name_mapping.items()}
@@ -678,6 +700,10 @@ if __name__ == "__main__":
         for name in [
                 'adult', 'default', 'shoppers', 'magic', 'beijing', 'news', 'news_nocat', 'diabetes',
                 'house', 'income', 'sick', 'us_location',
+                'agrawal_covariate_shift', 'gas_sensor_covariate_shift', 'gaussian_mixture_covariate_shift',
+                'adult_prior_shift', 'agrawal_prior_shift', 'bank_prior_shift', 'creditcard_prior_shift', 'sea_prior_shift',
+                'covertype_concept_drift', 'electricity_concept_drift', 'hyperplane_concept_drift',
+                'magic_telescope_concept_drift', 'mixed_concept_drift', 'sine_concept_drift', 'stagger_concept_drift',
                 'adult_dcr',
                 'default_dcr',
                 'shoppers_dcr',

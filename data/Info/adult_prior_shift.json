@@ -1,0 +1,15 @@
+{
+    "name": "adult_prior_shift",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": ["t", "age", "workclass", "fnlwgt", "education", "education-num", "marital-status", "occupation", "relationship", "race", "sex", "capital-gain", "capital-loss", "hours-per-week", "native-country", "y"],
+    "num_col_idx": [0, 1, 3, 5, 11, 12, 13],
+    "cat_col_idx": [2, 4, 6, 7, 8, 9, 10, 14],
+    "target_col_idx": [15],
+    "file_type": "csv",
+    "data_path": "~/data_concept_drift/P(Y)/adult/adult_prior_shift.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_by_time": true,
+    "time_col": 0
+}

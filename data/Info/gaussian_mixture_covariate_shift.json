@@ -1,0 +1,15 @@
+{
+    "name": "gaussian_mixture_covariate_shift",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": ["t", "x1", "x2", "y"],
+    "num_col_idx": [0, 1, 2],
+    "cat_col_idx": [],
+    "target_col_idx": [3],
+    "file_type": "csv",
+    "data_path": "~/data_concept_drift/P(X)/gaussian_mixture/gaussian_mixture_covariate_shift.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_by_time": true,
+    "time_col": 0
+}

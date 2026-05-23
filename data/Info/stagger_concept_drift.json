@@ -1,0 +1,15 @@
+{
+    "name": "stagger_concept_drift",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": ["t", "size", "color", "shape", "y"],
+    "num_col_idx": [0],
+    "cat_col_idx": [1, 2, 3],
+    "target_col_idx": [4],
+    "file_type": "csv",
+    "data_path": "~/data_concept_drift/P(YX)/stagger/stagger_concept_drift.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_by_time": true,
+    "time_col": 0
+}

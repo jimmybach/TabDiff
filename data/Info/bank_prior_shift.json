@@ -1,0 +1,15 @@
+{
+    "name": "bank_prior_shift",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": ["t", "age", "job", "marital", "education", "default", "balance", "housing", "loan", "contact", "day", "month", "campaign", "pdays", "previous", "poutcome", "y"],
+    "num_col_idx": [0, 1, 6, 10, 12, 13, 14],
+    "cat_col_idx": [2, 3, 4, 5, 7, 8, 9, 11, 15],
+    "target_col_idx": [16],
+    "file_type": "csv",
+    "data_path": "~/data_concept_drift/P(Y)/bank_marketing/bank_prior_shift.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_by_time": true,
+    "time_col": 0
+}

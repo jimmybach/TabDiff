@@ -1,0 +1,15 @@
+{
+    "name": "agrawal_covariate_shift",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": ["t", "salary", "commission", "age", "elevel", "car", "zipcode", "hvalue", "hyears", "loan", "y"],
+    "num_col_idx": [0, 1, 2, 3, 7, 8, 9],
+    "cat_col_idx": [4, 5, 6],
+    "target_col_idx": [10],
+    "file_type": "csv",
+    "data_path": "~/data_concept_drift/P(X)/agrawal/agrawal_covariate_shift.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_by_time": true,
+    "time_col": 0
+}

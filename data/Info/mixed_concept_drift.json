@@ -1,0 +1,15 @@
+{
+    "name": "mixed_concept_drift",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": null,
+    "num_col_idx": [0, 3, 4],
+    "cat_col_idx": [1, 2],
+    "target_col_idx": [5],
+    "file_type": "csv",
+    "data_path": "~/data_concept_drift/P(YX)/mixed/mixed_concept_drift.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_by_time": true,
+    "time_col": 0
+}
