@@ -597,6 +597,9 @@ def process_data(name):
     y_val = val_df[target_columns].to_numpy()
  
     save_dir = f'data/{name}'
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
     np.save(f'{save_dir}/X_num_train.npy', X_num_train)
     np.save(f'{save_dir}/X_cat_train.npy', X_cat_train)
     np.save(f'{save_dir}/y_train.npy', y_train)
