@@ -28,7 +28,7 @@
         8
     ],
     "file_type": "csv",
-    "data_path": "~/four_layer_datasets_csv_only/TrackA_Controlled_SCM/pos_scalefree_noise_nonroots_s33.csv",
+    "data_path": "~/four_layer_datasets_csv_only/four_layer_datasets_csv_only/TrackA_Controlled_SCM/pos_scalefree_noise_nonroots_s33.csv",
     "val_path": null,
     "test_path": null
 }

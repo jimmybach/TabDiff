@@ -67,7 +67,7 @@
         27
     ],
     "file_type": "csv",
-    "data_path": "~/four_layer_datasets_csv_only/TrackC_Real_EnvAware/trackC_SpeedDating-waveblock_seed22.csv",
+    "data_path": "~/four_layer_datasets_csv_only/four_layer_datasets_csv_only/TrackC_Real_EnvAware/trackC_SpeedDating-waveblock_seed22.csv",
     "val_path": null,
     "test_path": null,
     "split_column": "split",

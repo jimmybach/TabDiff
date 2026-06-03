@@ -26,7 +26,7 @@ export PIP_CACHE_DIR="$WORKROOT/pip-cache"
 export UV_CACHE_DIR="$WORKROOT/uv-cache"
 mkdir -p "$TMPDIR" "$PIP_CACHE_DIR" "$UV_CACHE_DIR" "$WORKROOT/slurm_logs"
 
-DATASET_ROOT="${DATASET_ROOT:-$HOME/four_layer_datasets_csv_only}"
+DATASET_ROOT="${DATASET_ROOT:-$HOME/four_layer_datasets_csv_only/four_layer_datasets_csv_only}"
 if [[ -z "${DATASETS:-}" ]]; then
     DATASETS="$(
         find "$DATASET_ROOT" -type f -name '*.csv' | sort | while IFS= read -r dataset_path; do

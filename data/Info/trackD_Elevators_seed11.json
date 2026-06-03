@@ -48,7 +48,7 @@
         18
     ],
     "file_type": "csv",
-    "data_path": "~/four_layer_datasets_csv_only/TrackD_Real_Stationary/trackD_Elevators_seed11.csv",
+    "data_path": "~/four_layer_datasets_csv_only/four_layer_datasets_csv_only/TrackD_Real_Stationary/trackD_Elevators_seed11.csv",
     "val_path": null,
     "test_path": null,
     "split_column": "split",

@@ -28,7 +28,7 @@
         8
     ],
     "file_type": "csv",
-    "data_path": "~/four_layer_datasets_csv_only/TrackA_Controlled_SCM/pos_motif_nonlinear_nonroots_s11.csv",
+    "data_path": "~/four_layer_datasets_csv_only/four_layer_datasets_csv_only/TrackA_Controlled_SCM/pos_motif_nonlinear_nonroots_s11.csv",
     "val_path": null,
     "test_path": null
 }

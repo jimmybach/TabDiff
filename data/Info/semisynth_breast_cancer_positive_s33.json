@@ -36,7 +36,7 @@
         12
     ],
     "file_type": "csv",
-    "data_path": "~/four_layer_datasets_csv_only/TrackB_RealRoot_SemiSynthetic/semisynth_breast_cancer_positive_s33.csv",
+    "data_path": "~/four_layer_datasets_csv_only/four_layer_datasets_csv_only/TrackB_RealRoot_SemiSynthetic/semisynth_breast_cancer_positive_s33.csv",
     "val_path": null,
     "test_path": null
 }
