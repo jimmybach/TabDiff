@@ -1,0 +1,45 @@
+{
+    "name": "trackC_BikeSharing-season_seed22",
+    "task_type": "regression",
+    "header": "infer",
+    "column_names": [
+        "E",
+        "year",
+        "hour",
+        "holiday",
+        "weekday",
+        "workingday",
+        "weather",
+        "temp",
+        "feel_temp",
+        "humidity",
+        "windspeed",
+        "target"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10
+    ],
+    "cat_col_idx": [
+        6
+    ],
+    "target_col_idx": [
+        11
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackC_Real_EnvAware/trackC_BikeSharing-season_seed22.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_column": "split",
+    "train_split_value": "train",
+    "test_split_value": "test",
+    "val_split_value": "valid"
+}

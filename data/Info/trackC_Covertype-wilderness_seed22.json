@@ -1,0 +1,47 @@
+{
+    "name": "trackC_Covertype-wilderness_seed22",
+    "task_type": "multiclass",
+    "header": "infer",
+    "column_names": [
+        "E",
+        "Elevation",
+        "Aspect",
+        "Slope",
+        "Horizontal_Distance_To_Hydrology",
+        "Vertical_Distance_To_Hydrology",
+        "Horizontal_Distance_To_Roadways",
+        "Hillshade_9am",
+        "Hillshade_Noon",
+        "Hillshade_3pm",
+        "Horizontal_Distance_To_Fire_Points",
+        "soil_type",
+        "target"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+    ],
+    "cat_col_idx": [
+        11
+    ],
+    "target_col_idx": [
+        12
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackC_Real_EnvAware/trackC_Covertype-wilderness_seed22.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_column": "split",
+    "train_split_value": "train",
+    "test_split_value": "test",
+    "val_split_value": "valid"
+}

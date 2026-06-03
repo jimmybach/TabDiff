@@ -1,0 +1,51 @@
+{
+    "name": "trackD_Adult_seed22",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": [
+        "age",
+        "workclass",
+        "fnlwgt",
+        "education",
+        "education-num",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "capitalgain",
+        "capitalloss",
+        "hoursperweek",
+        "native-country",
+        "target"
+    ],
+    "num_col_idx": [
+        0,
+        2,
+        4,
+        10,
+        11,
+        12
+    ],
+    "cat_col_idx": [
+        1,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        13
+    ],
+    "target_col_idx": [
+        14
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackD_Real_Stationary/trackD_Adult_seed22.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_column": "split",
+    "train_split_value": "train",
+    "test_split_value": "test",
+    "val_split_value": "valid"
+}

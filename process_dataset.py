@@ -452,7 +452,23 @@ def process_data(name):
 
     has_val = bool(info['val_path'])
     val_df = pd.DataFrame(columns=data_df.columns).astype(data_df.dtypes)   # by default (val_path is not provided), set val_Df to be empty
-    if info['test_path']:
+    if info.get('split_column'):
+        split_col = info['split_column']
+        split_col_name = split_col if isinstance(split_col, str) else column_names[split_col]
+        train_split_value = info.get('train_split_value', 'train')
+        test_split_value = info.get('test_split_value', 'test')
+        val_split_value = info.get('val_split_value', 'valid')
+
+        train_df = data_df[data_df[split_col_name] == train_split_value].copy()
+        test_df = data_df[data_df[split_col_name] == test_split_value].copy()
+        val_df = data_df[data_df[split_col_name] == val_split_value].copy()
+        has_val = not val_df.empty
+        data_df = data_df.drop(columns=[split_col_name])
+        train_df = train_df.drop(columns=[split_col_name])
+        test_df = test_df.drop(columns=[split_col_name])
+        val_df = val_df.drop(columns=[split_col_name], errors='ignore')
+
+    elif info['test_path']:
 
         # if testing data is given
         test_path = info['test_path']

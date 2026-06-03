@@ -1,0 +1,38 @@
+{
+    "name": "trackD_California_seed11",
+    "task_type": "regression",
+    "header": "infer",
+    "column_names": [
+        "MedInc",
+        "HouseAge",
+        "AveRooms",
+        "AveBedrms",
+        "Population",
+        "AveOccup",
+        "Latitude",
+        "Longitude",
+        "target"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ],
+    "cat_col_idx": [],
+    "target_col_idx": [
+        8
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackD_Real_Stationary/trackD_California_seed11.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_column": "split",
+    "train_split_value": "train",
+    "test_split_value": "test",
+    "val_split_value": "valid"
+}

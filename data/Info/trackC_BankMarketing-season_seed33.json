@@ -1,0 +1,55 @@
+{
+    "name": "trackC_BankMarketing-season_seed33",
+    "task_type": "binclass",
+    "header": "infer",
+    "column_names": [
+        "E",
+        "V1",
+        "V2",
+        "V3",
+        "V4",
+        "V5",
+        "V6",
+        "V7",
+        "V8",
+        "V9",
+        "V10",
+        "V12",
+        "V13",
+        "V14",
+        "V15",
+        "V16",
+        "target"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        6,
+        10,
+        11,
+        12,
+        13,
+        14
+    ],
+    "cat_col_idx": [
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        15
+    ],
+    "target_col_idx": [
+        16
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackC_Real_EnvAware/trackC_BankMarketing-season_seed33.csv",
+    "val_path": null,
+    "test_path": null,
+    "split_column": "split",
+    "train_split_value": "train",
+    "test_split_value": "test",
+    "val_split_value": "valid"
+}

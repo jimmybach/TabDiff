@@ -1,0 +1,34 @@
+{
+    "name": "pos_scalefree_coefficient_roots_s11",
+    "task_type": "multiclass",
+    "header": "infer",
+    "column_names": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4",
+        "X5",
+        "X6",
+        "X7",
+        "E"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ],
+    "cat_col_idx": [],
+    "target_col_idx": [
+        8
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackA_Controlled_SCM/pos_scalefree_coefficient_roots_s11.csv",
+    "val_path": null,
+    "test_path": null
+}

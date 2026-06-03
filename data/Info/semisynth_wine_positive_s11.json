@@ -1,0 +1,42 @@
+{
+    "name": "semisynth_wine_positive_s11",
+    "task_type": "multiclass",
+    "header": "infer",
+    "column_names": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4",
+        "X5",
+        "X6",
+        "X7",
+        "X8",
+        "X9",
+        "X10",
+        "X11",
+        "E"
+    ],
+    "num_col_idx": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+    ],
+    "cat_col_idx": [],
+    "target_col_idx": [
+        12
+    ],
+    "file_type": "csv",
+    "data_path": "~/four_layer_datasets_csv_only/TrackB_RealRoot_SemiSynthetic/semisynth_wine_positive_s11.csv",
+    "val_path": null,
+    "test_path": null
+}
