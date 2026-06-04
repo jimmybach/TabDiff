@@ -20,11 +20,40 @@ eval "$(conda shell.bash hook)"
 WORKROOT="${WORKROOT:-/sciclone/scr20/jpbach}"
 TABDIFF_REPO="${TABDIFF_REPO:-$HOME/TabDiff}"
 TABDIFF_PYTHON="${TABDIFF_PYTHON:-/sciclone/scr20/jpbach/conda-envs/tabdiff/bin/python}"
+TABDIFF_OUTPUT_ROOT="${TABDIFF_OUTPUT_ROOT:-$WORKROOT/tabdiff_outputs}"
 
 export TMPDIR="$WORKROOT/tmp"
 export PIP_CACHE_DIR="$WORKROOT/pip-cache"
 export UV_CACHE_DIR="$WORKROOT/uv-cache"
-mkdir -p "$TMPDIR" "$PIP_CACHE_DIR" "$UV_CACHE_DIR" "$WORKROOT/slurm_logs"
+mkdir -p "$TMPDIR" "$PIP_CACHE_DIR" "$UV_CACHE_DIR" "$WORKROOT/slurm_logs" "$TABDIFF_OUTPUT_ROOT"
+
+link_output_dir() {
+    local src_path="$1"
+    local dst_path="$2"
+
+    mkdir -p "$(dirname "$dst_path")"
+    mkdir -p "$dst_path"
+
+    if [[ -L "$src_path" ]]; then
+        rm -f "$src_path"
+    elif [[ -d "$src_path" ]]; then
+        shopt -s dotglob nullglob
+        local existing_items=("$src_path"/*)
+        shopt -u dotglob nullglob
+        if (( ${#existing_items[@]} )); then
+            rsync -a "$src_path"/ "$dst_path"/
+        fi
+        rm -rf "$src_path"
+    fi
+
+    ln -sfn "$dst_path" "$src_path"
+}
+
+link_output_dir "$TABDIFF_REPO/tabdiff/ckpt" "$TABDIFF_OUTPUT_ROOT/ckpt"
+link_output_dir "$TABDIFF_REPO/tabdiff/result" "$TABDIFF_OUTPUT_ROOT/result"
+link_output_dir "$TABDIFF_REPO/eval/report_runs" "$TABDIFF_OUTPUT_ROOT/report_runs"
+link_output_dir "$TABDIFF_REPO/impute" "$TABDIFF_OUTPUT_ROOT/impute"
+link_output_dir "$TABDIFF_REPO/debug" "$TABDIFF_OUTPUT_ROOT/debug"
 
 DATASET_ROOT="${DATASET_ROOT:-$HOME/four_layer_datasets_csv_only/four_layer_datasets_csv_only}"
 if [[ -z "${DATASETS:-}" ]]; then
