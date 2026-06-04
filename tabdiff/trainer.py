@@ -2,6 +2,7 @@ import os
 import glob
 import time
 import inspect
+import re
 import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import numpy as np
@@ -89,7 +90,7 @@ class Trainer:
             self.diffusion.cat_schedule.load_state_dict(state_dicts['cat_schedule'])   
             print(f"Weights are loaded from {self.ckpt_path}")     
         
-        self.curr_epoch = int(os.path.basename(self.ckpt_path).split('_')[-1].split('.')[0]) if self.ckpt_path is not None else 0
+        self.curr_epoch = self._infer_epoch_from_ckpt_path(self.ckpt_path)
 
     def _anneal_lr(self, step):
         frac_done = step / self.steps
@@ -102,6 +103,13 @@ class Trainer:
             for existing_path in glob.glob(os.path.join(self.model_save_path, pattern)):
                 os.remove(existing_path)
         torch.save(state_dicts, os.path.join(self.model_save_path, f"{checkpoint_name}.pt"))
+
+    def _infer_epoch_from_ckpt_path(self, ckpt_path):
+        if ckpt_path is None:
+            return 0
+        basename = os.path.basename(ckpt_path)
+        matches = re.findall(r"\d+", basename)
+        return int(matches[-1]) if matches else 0
 
     def _run_step(self, x, closs_weight, dloss_weight):
         x = x.to(self.device)
