@@ -68,6 +68,8 @@ def main(args):
             if not ckpt_path_arr:
                 ckpt_path_arr = glob.glob(f"{ckpt_parent_path}/best_model*")
             if not ckpt_path_arr:
+                ckpt_path_arr = glob.glob(f"{ckpt_parent_path}/model_latest.pt")
+            if not ckpt_path_arr:
                 ckpt_path_arr = sorted(
                     glob.glob(f"{ckpt_parent_path}/model_*.pt"),
                     key=lambda path: int(os.path.splitext(os.path.basename(path))[0].split('_')[-1])

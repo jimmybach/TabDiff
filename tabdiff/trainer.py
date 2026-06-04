@@ -97,6 +97,12 @@ class Trainer:
         for param_group in self.optimizer.param_groups:
             param_group["lr"] = lr
 
+    def _save_latest_checkpoint(self, checkpoint_name, state_dicts):
+        for pattern in (f"{checkpoint_name}.pt", f"{checkpoint_name}_*.pt"):
+            for existing_path in glob.glob(os.path.join(self.model_save_path, pattern)):
+                os.remove(existing_path)
+        torch.save(state_dicts, os.path.join(self.model_save_path, f"{checkpoint_name}.pt"))
+
     def _run_step(self, x, closs_weight, dloss_weight):
         x = x.to(self.device)
         
@@ -278,7 +284,7 @@ class Trainer:
                     'num_schedule':self.diffusion.num_schedule.state_dict(), 
                     'cat_schedule': self.diffusion.cat_schedule.state_dict(),
                 }
-                torch.save(state_dicts, os.path.join(self.model_save_path, f'model_{epoch+1}.pt'))
+                self._save_latest_checkpoint('model_latest', state_dicts)
                 
                 print_with_bar(f"Routine Generation Evaluation every {self.check_val_every}, currently at epoch #{epoch+1}, wiht total_loss={total_loss}.")
                 out_metrics, _, _ = self.evaluate_generation(save_metric_details=True, plot_density=True)
@@ -286,7 +292,7 @@ class Trainer:
                 print(f"Eval Resutls of the Non-EMA model:\n {out_metrics}")
 
                 # Evaluate the EMA model
-                torch.save(self.ema_model.state_dict(), os.path.join(self.model_save_path, f'ema_model_{epoch+1}.pt'))
+                self._save_latest_checkpoint('ema_model_latest', self.ema_model.state_dict())
                 ema_out_metrics, _, _ = self.evaluate_generation(ema=True, save_metric_details=True, plot_density=True)
                 log_dict.update({
                     "ema": ema_out_metrics,
