@@ -16,6 +16,10 @@ from io import BytesIO
 from tqdm import tqdm
 import argparse
 
+
+def _is_constant(series):
+    return series.nunique(dropna=False) <= 1
+
 def main(args):
     dataname = args.dataname        
     sample_file_name = args.sample_file_name
@@ -51,17 +55,37 @@ def plot_density(syn_data, real_data, info, num_per_row=3):
     for i, col in tqdm(enumerate(column_names), total = len(column_names)):
         # plot_type = 'bar' if i in info['cat_col_idx'] else 'distplot'
         plot_type = 'bar' if info['metadata']['columns'][str(i)]['sdtype'] == 'categorical' else 'distplot'
-        if plot_type == 'distplot' and (syn_data[col][0] == syn_data[col]).all():     # to tackle a very weird bug 
-        # If the continuous data all aggregate at a single value, get_column_plot() cannot plot a density curve for it.
-        # So, we perturb one entry of the cont data by a small amount
-            print(f"\n ALERT: the generated samples column_{i} with name '{col}' all has the same value of {syn_data[col][0]} \n")
-            syn_data[col][0] += 1e-5
-        fig = get_column_plot(
-            real_data=real_data,
-            synthetic_data=syn_data,
-            column_name=col,
-            plot_type=plot_type
-        )
+        if plot_type == 'distplot':
+            syn_is_constant = _is_constant(syn_data[col])
+            real_is_constant = _is_constant(real_data[col])
+            if syn_is_constant or real_is_constant:
+                print(
+                    f"\n ALERT: falling back to bar plot for column_{i} '{col}' "
+                    f"because {'synthetic' if syn_is_constant else 'real'} data is constant. \n"
+                )
+                plot_type = 'bar'
+
+        try:
+            fig = get_column_plot(
+                real_data=real_data,
+                synthetic_data=syn_data,
+                column_name=col,
+                plot_type=plot_type
+            )
+        except ValueError as exc:
+            if plot_type == 'distplot':
+                print(
+                    f"\n ALERT: distplot failed for column_{i} '{col}' with error: {exc}. "
+                    "Retrying with bar plot. \n"
+                )
+                fig = get_column_plot(
+                    real_data=real_data,
+                    synthetic_data=syn_data,
+                    column_name=col,
+                    plot_type='bar'
+                )
+            else:
+                raise
         
         img_bytes = pio.to_image(fig, format='png')
         img = Image.open(BytesIO(img_bytes))
